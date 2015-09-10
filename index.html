@@ -4,14 +4,14 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Antistatique presentation</title>
+    <title>PHP Profiling</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <meta name="author" content="Marc Friederich">
-    <meta name="keyword" content="antistatique, web agency">
-    <meta name="description" content="Base presentation for Antistatique">
+    <meta name="author" content="Gilles Doge">
+    <meta name="keyword" content="php, profiler, profiling, talk, presentation">
+    <meta name="description" content="Profiling in PHP">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -57,23 +57,103 @@
         <section>
           <section>
             <h1>Gilles Doge</h1>
-            <h2>Web Software Engineer & Founder at Antistatique</h2>
+            <h2>Web Software Engineer &amp; Founder at Antistatique</h2>
             <p><object data='assets/github.svg' style='height:50px; width:50px;' ></object> <a href="https://github.com/gido" title="GitHub">@gido</a></p>
-            <p><object data='assets/twitter.svg' style='height:50px; width:50px;' ></object> <a href="https://twitter.com/gido" title="Gilles Doge on Twitter">@gido</a></p>
+            <p><object data='assets/twitter.svg' style='height:50px; width:50px;' ></object> <a href="https://twitter.com/gil_les" title="Gilles Doge on Twitter">@gil_les</a></p>
           </section>
         </section>
 
         <section>
           <section>
-            <h1>Historique</h1>
-            <ul>
-              <li></li>
-            </ul>
+            <h2>
+              <em>Profiling:</em>
+              is a method to mesure where a program spend time.
+            </h2>
+            <h3>and memory, cpu, network traffic, ...</h3>
+          </section>
+          <section>
+            <h2>
+              <em>Profiling:</em>
+              is a method to find where you did something badly.
+            </h2>
+          </section>
+          <section>
+            <h2>
+              <em>Profiling:</em>
+              is a method to find where you can <strong>improve</strong> your code.
+            </h2>
+          </section>
+          <section>
+            <h2>Find criminal code !</h2>
+            <img src="assets/img/criminal_minds.jpg" />
           </section>
         </section>
 
         <section>
+          <h1>Performance matters</h1>
+          <p><small>(You know this slogan, right !)</small></p>
+          <ul>
+            <li>Users <strong>love</strong> fast apps</li>
+            <li>Developers <strong>is enlighted</strong> in front of fast apps :)</li>
+            <li>Search engine say that they like fast apps</li>
+            <li><u>Remember:</u> time is money</li>
+            <li>And spare resources is not a bad idea</li>
+        </section>
 
+<!--
+        <section>
+          <ul>
+            <li>Network (dns, tcp/ip)</li>
+            <li>Web Server</li>
+            <li>Filesystem</li>
+            <li>Application</li>
+            <li>Database / external services</li>
+            <li>Rendering</li>
+          </ul>
+        </section>
+-->
+        <section>
+          <section>
+            <h1>Profiling with PHP</h1>
+          </section>
+          <section>
+            <h1>DIY Approach</h1>
+            <pre><code class="php" data-trim>
+$start = microtime();
+
+prepareSomeData();
+importSomeData();
+
+$end = microtime();
+$time = $end - $start;
+
+error_log('Imported in ' . $time, 3, 'performance.log');
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>DIY Approach</h1>
+            <p>Using <a href="http://symfony.com/doc/current/components/stopwatch.html">Symfony Stopwatch</a></p>
+            <pre><code class="php" data-trim>
+use Symfony\Component\Stopwatch\Stopwatch;
+
+$stopwatch = new Stopwatch();
+$stopwatch->start('importData');
+
+prepareSomeData();
+$stopwatch->lap('importData');
+importSomeData();
+
+$event = $stopwatch->end('importData');
+// $periods = $event->getPeriods();
+
+error_log(
+  'Imported in ' . $event->getDuration() . ' - ' . $event->getMemory(),
+  3,
+  'performance.log'
+);
+            </code></pre>
+          </section>
         </section>
 
         <section>
