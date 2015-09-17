@@ -102,20 +102,23 @@
 
 <!--
         <section>
+          <h1>Latency</h1>
           <ul>
             <li>Network (dns, tcp/ip)</li>
-            <li>Web Server</li>
+            <li>Web Server (http, apache, ngnix)</li>
             <li>Filesystem</li>
-            <li>Application</li>
+            <li>Application (PHP <--)</li>
             <li>Database / external services</li>
-            <li>Rendering</li>
+            <li>Rendering (Twig)</li>
           </ul>
         </section>
 -->
+
         <section>
-          <section>
-            <h1>Profiling with PHP</h1>
-          </section>
+          <h1>Profiling with PHP</h1>
+        </section>
+
+        <section>
           <section>
             <h1>DIY Approach</h1>
             <pre><code class="php" data-trim>
@@ -154,6 +157,115 @@ error_log(
 );
             </code></pre>
           </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Framework approach</h1>
+          </section>
+          <section>
+            <img src="assets/img/sf_profiler_timeline.jpg">
+          </section>
+          <section>
+            <h1>But</h1>
+            <p>Good enough to have the big picture but this isn't represent the reality</p>
+            <br>
+            <ul>
+              <li>"debug" mode (= no cache)</li>
+              <li>You have to exclude the time of the profiling itself</li>
+              <li>You app is not running in his production environement</li>
+            </ul>
+          </section>
+        </section>
+
+
+        <section>
+          <section>
+            <h1>XHProf</h1>
+          </section>
+          <section>
+            <h1>XHProf</h1>
+            <ul>
+              <li>Open sourced by Facebook in 2009</li>
+              <li>Run on your dev machine</li>
+              <li>Functions callgraph</li>
+              <li><a href="http://php.net/manual/fr/book.xhprof.php">PHP Extension</a></li>
+              <li>XHProf GUI</li>
+            </ul>
+          </section>
+          <section>
+            <h1>Configuration</h1>
+            <pre><code data-trim>
+# Install
+sudo pecl install xphrof
+
+# php.ini
+# set where you want to store xhprof runs
+[xhprof]
+xhprof.output_dir = "/var/tmp/xhprof"
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Configuration</h1>
+            <pre><code class="php" data-trim>
+// start profiling
+xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+
+// the code you want to profile
+
+// stop profiler
+$xhprof_data = xhprof_disable();
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h1>Configuration</h1>
+            <pre><code data-trim>
+# in your .htaccess
+php_value auto_prepend_file /var/www/xhprof/header.php
+php_value auto_append_file /var/www/xhprof/footer.php
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>XHProf GUI</h3>
+            <img src="assets/img/xhprof1.png" width="100%">
+          </section>
+          <section>
+            <img src="assets/img/xhprof2.png" width="100%">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Blackfire</h1>
+          </section>
+          <section>
+            <p>4 components</p>
+            <ul>
+              <li><strong>Probe:</strong> PHP Extension</li>
+              <li><strong>Agent:</strong> server-side deamon that aggregates and forward data to blackfire.io</li>
+              <li><strong>Companion:</strong> Chrome extension</li>
+              <li><strong>Client:</strong> CLI equivalent to companion</li>
+            </ul>
+          </section>
+
+          <section>
+           <h1>Demo</h1>
+          </section>
+
+        </section>
+
+        <section>
+          <h1>Other tools</h1>
+          <ul>
+            <li>New Relic - Monitoring your apps</li>
+            <li>Zend Server Z-Ray - NEW, didn't tested</li>
+            <li>XDebug</li>
+            <li>Did you experienced some of them ?</li>
+          </ul>
         </section>
 
         <section>
